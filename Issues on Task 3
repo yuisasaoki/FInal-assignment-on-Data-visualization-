@@ -1,0 +1,47 @@
+library(shiny)
+library(tidyverse)
+library(rio)
+library(ggthemes)
+library(rsconnect)
+
+adult=import("adult.csv")
+
+names(adult)=tolower(names(adult))
+
+ui<-fluidPage(titlePanel("Trends in Demographics and Income"),
+                fluidRow(
+                  column(width = 4,
+                         wellPanel(p("option1"),
+                           selectInput("country", 
+                                       "country",
+                                       c("United-States", "Canada", "Mexico", "Germany", "Philippines")
+                                       )
+                           )),
+                  column(width = 8)),
+                fluidRow(
+                  column(width = 12,
+                                wellPanel(
+                                p("option2"),
+                                radioButtons("continuous_variable","continuous variable",c("age","hours_per_week")),
+                                radioButtons("graph_type","graph",c("histogram","boxplot"))
+                                )),
+                         plotOutput("p1")),
+              fluidRow(
+                column(width=3,
+                       wellPanel(p("option3"),
+                                radioButtons("categorical_variable","categorical variable",c("education","workingclass","sex")),
+                                checkboxInput("is_stacked","Stack Bar", value=FALSE)
+                                )),
+                aplotOutput("p2")
+              )
+)
+
+## Listening on http://127.0.0.1:4693
+Warning: Error in server: unused arguments (input = list(<environment>, TRUE, function (x) 
+x), output = list(<environment>, function (x) 
+x))
+  1: runApp
+Error in server(...) : 
+  unused arguments (input = list(<environment>, TRUE, function (x) 
+x), output = list(<environment>, function (x) 
+x))
